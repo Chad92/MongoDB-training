@@ -10,40 +10,46 @@ async function run() {
         console.log("TEST ?");
         const db = client.db('Taches');
         const collection = db.collection('documents');
-   // CREATE
-        try {
-            const insertData = await collection.insertMany([
-                {
-                name : 'Alex',
-                age : '30',
-                ville : 'Paris'
-                },
-                {
-                    name : 'Marie',
-                    age : '25',
-                    ville : 'Lille'
-                },
-                {
-                    name : 'Bruno',
-                    age : '55',
-                    ville : 'Marseille'
-                    },
+   // CREATE : ajouter des datas dans mon tableau Mongo db atlas
+//         try {
+//             const insertData = await collection.insertMany([
+//                 {
+//                 name : 'Alex',
+//                 age : '30',
+//                 ville : 'Paris'
+//                 },
+//                 {
+//                     name : 'Marie',
+//                     age : '25',
+//                     ville : 'Lille'
+//                 },
+//                 {
+//                     name : 'Bruno',
+//                     age : '55',
+//                     ville : 'Marseille'
+//                     },
                 
-]);
-        console.log('Docouments inseres =>', insertData);
-        return 'done'
-    }
-    catch (err) {
-        console.log(err.stack);
-    }
+// ]);
+//         console.log('Docouments inseres =>', insertData);
+//         return 'done'
+//     }
+//     catch (err) {
+//         console.log(err.stack);
+//     }
     //
-    // READ
-    try {
+    // READ : permet de retrouver des docouments dans ma collection
+    // try {
 
-    }
-    catch (err) {
-        console.log(err.stack);
-    }
+    //     //Pour trouver une data : 
+    //     const findData = await collection.findOne({name: 'Alex'})
+    //     console.log('Docouments trouvés =>', findData)
+    //     // Pour trouver des datas , on va retrouver les données des gens qui ont 30 ans
+    //     const findMultipleDatas = await collection.find({age: '30'})
+    //     console.log(await findMultipleDatas.toArray())
+    // }
+    // catch (err) {
+    //     console.log(err.stack);
+    // }
     //
     // DELETE
     try {
@@ -54,9 +60,13 @@ async function run() {
         console.log(err.stack);
     }
     //
-    // UPDATE
+    // UPDATE : pour mettre a jour une donnée
     try {
 
+        const updataData = collection.updateOne({ name: 'Marie'}, {
+            $set : { name : 'Camille', ville: 'Rouen'}
+        });
+        console.log(await updataData)
     }
     catch (err) {
         console.log(err.stack);
@@ -66,6 +76,26 @@ async function run() {
     finally {
         await client.close();
     }
+
+    // Index : permet de faire une analyse sur un docoument qui est indéxé dans ma collection (table de données),
+    // permet de faire une requete plus rapide et claire sur une donnée qu'on a besoin de retrouver
+// Lien api index mongodb : https://mongodb.github.io/node-mongodb-native/5.1/classes/Collection.html#createIndex
+    // exemple : db.nomDeLaCollection.createIndex({"cle": 1}) 
+    // le chiffre 1 dans clé : 1 va trier les resultats dans l'ordre croissant et -1 en ordre décroissant
+    // Le résultat se présente comme ça :
+        // {
+        //     "createdCollectionAutomatically" : false,
+        //     "numIndexesBefore" : 1,
+        //     "numIndexesAfter": 2,
+        //     "ok" : 1
+        //     }
+    // Creer une date : 
+   // new ISODate : permet de creer ma date
+//      db.cakeSales.insertMany( [
+//    { _id: 0, type: "chocolate", orderDate: new ISODate("2020-05-18T14:10:30Z") },
+//    { _id: 1, type: "strawberry", orderDate: new ISODate("2021-03-20T11:30:05Z") },
+//    { _id: 2, type: "vanilla", orderDate: new ISODate("2021-01-15T06:31:15Z") }
+// ] )
 }
 
 run().catch(console.dir);
