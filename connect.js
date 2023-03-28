@@ -1,5 +1,4 @@
 const { MongoClient } = require("mongodb");
- 
 // Replace the following with your Atlas connection string                                                                                                                                        
 const url = "mongodb+srv://maxime:t2im3wo7reBU7DoW@cluster0.0e8gtjr.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
@@ -51,10 +50,15 @@ async function run() {
     //     console.log(err.stack);
     // }
     //
-    // DELETE
+    // DELETE : supprimer une data 
     try {
-
-
+        // delete une data d'une collection, exemple
+        const deleteData = collection.deleteOne({ name : 'Bruno'})
+        console.log(await deleteData)
+        // delete les ,datas qui contiennent l'age 31
+        const deleteMultipleData = collection.deleteMany({ age : '31'})
+        console.log(await deleteMultipleData)
+        
     }
     catch (err) {
         console.log(err.stack);
@@ -62,11 +66,16 @@ async function run() {
     //
     // UPDATE : pour mettre a jour une donnée
     try {
-
+//Update une data
         const updataData = collection.updateOne({ name: 'Marie'}, {
             $set : { name : 'Camille', ville: 'Rouen'}
         });
         console.log(await updataData)
+        // updata plusieurs datas 
+        const updataMultipleDatas = collection.updateMany({ name: 'Marie'}, {
+            $set : { name : 'Camille', ville: 'Rouen'}
+        });
+        console.log(await updataMultipleDatas)
     }
     catch (err) {
         console.log(err.stack);
